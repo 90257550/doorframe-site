@@ -1,0 +1,63 @@
+---
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+
+// 根据分类返回对应的 SVG 线框图标，保持「结构线条」的视觉语言
+const icons: Record<string, string> = {
+  '铝合金': 'M4 2h16v20H4z M8 6h8v12H8z',
+  '钢制': 'M3 3h18v18H3z M3 9h18 M3 15h18',
+  '塑钢': 'M5 2h14v20H5z M9 6h6v10H9z',
+  '钢质防火': 'M3 3h18v18H3z M12 3v18 M3 12h18',
+  '不锈钢': 'M4 4h16v16H4z M8 8h8v8H8z',
+  '定制': 'M2 12 L12 2 22 12 12 22z',
+};
+const iconPath = icons[product.tag] ?? icons['定制'];
+---
+<article class="card product-card">
+  <a class="product-card__media" href={`/products/${product.slug}/`} aria-label={product.name}>
+    <!-- 抽象型材截面 SVG：真实项目中可换成实拍图 -->
+    <svg viewBox="0 0 80 80" width="56" height="56" fill="none" aria-hidden="true">
+      <path d={iconPath} stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+    </svg>
+    <span class="product-card__badge">{product.tag}</span>
+  </a>
+  <div class="product-card__body">
+    <p class="product-card__tag">{product.material}</p>
+    <h3 class="product-card__title">
+      <a href={`/products/${product.slug}/`}>{product.name}</a>
+    </h3>
+    <p class="product-card__desc">{product.desc}</p>
+  </div>
+</article>
+
+<style>
+  .product-card__media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(145deg, #2b2d30, #1a1b1d);
+    color: #9aa0a6;
+    transition: color .25s ease;
+  }
+  .product-card:hover .product-card__media { color: #cfd4d9; }
+
+  .product-card__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: .08em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    backdrop-filter: blur(4px);
+  }
+</style>

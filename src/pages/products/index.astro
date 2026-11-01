@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products } from '../../data/products';
+import { site } from '../../config/site';
+---
+<Base title={`产品系列 · ${site.name}`} description="断桥铝合金、钢制防盗、UPVC 室内、防火、不锈钢与定制异形门框——六种材质工艺，覆盖住宅、商用与消防全场景。">
+  <Header />
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="kicker">产品目录</p>
+        <h1 class="page-title">六种材质工艺</h1>
+        <p class="page-lead">每种产品都标注了材质、表面处理、型材规格与适用场景，方便快速选型。</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 40px;">
+      <div class="container">
+        <div class="grid-3">
+          {products.map((p) => <ProductCard product={p} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container cta__inner">
+        <div>
+          <h2 class="cta__title">没找到需要的型号？</h2>
+          <p class="cta__sub">支持来图来样定制，提供 CAD 深化与打样服务。</p>
+        </div>
+        <a class="btn btn--ghost-light" href="/#contact">联系我们定制</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    background: var(--dark);
+    color: #fff;
+    padding: 72px 0 56px;
+  }
+  .page-hero .kicker { color: var(--ink-faint); }
+  .page-title {
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .page-lead {
+    color: var(--ink-faint);
+    font-size: 16px;
+    max-width: 520px;
+  }
+  .cta__inner { justify-content: space-between; }
+</style>

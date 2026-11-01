@@ -1,0 +1,86 @@
+---
+import { site } from '../config/site';
+
+const nav = [
+  { href: '/', label: '首页' },
+  { href: '/products', label: '产品系列' },
+  { href: '/#process', label: '加工流程' },
+  { href: '/#faq', label: '常见问题' },
+  { href: '/#contact', label: '联系我们' },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? current === '/' : current.startsWith(href.replace('/#', '/'));
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="/">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="4" y="3" width="12" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M12.5 9v3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand__text">
+        <strong>{site.name}</strong>
+        <small>{site.slogan}</small>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="主导航">
+      {nav.map((item) => (
+        <a class:list={['nav-link', { 'is-active': isActive(item.href) }]} href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a class="btn btn--primary header-cta" href={`tel:${site.phone.replace(/-/g, '')}`}>
+      {site.phone}
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 64px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand__mark { color: var(--ink); display: flex; }
+  .brand__text { display: flex; flex-direction: column; line-height: 1.2; }
+  .brand__text strong { font-size: 15px; letter-spacing: 0.02em; }
+  .brand__text small { font-size: 11px; color: var(--ink-faint); }
+
+  .main-nav { display: flex; gap: 4px; margin-left: auto; }
+  .nav-link {
+    padding: 8px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    border-radius: var(--radius);
+    transition: color .15s, background .15s;
+  }
+  .nav-link:hover { color: var(--ink); background: var(--accent-soft); }
+  .nav-link.is-active { color: var(--ink); font-weight: 600; }
+
+  .header-cta { padding: 9px 18px; font-size: 13px; }
+
+  @media (max-width: 880px) {
+    .site-header__inner { height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; gap: 12px; }
+    .main-nav { order: 3; width: 100%; margin-left: 0; overflow-x: auto; }
+    .nav-link { white-space: nowrap; }
+    .header-cta { margin-left: auto; }
+  }
+</style>

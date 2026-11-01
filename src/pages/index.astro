@@ -1,0 +1,327 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { products } from '../data/products';
+import { site } from '../config/site';
+
+const featured = products.slice(0, 3);
+
+const processSteps = [
+  { num: '01', title: '图纸深化', desc: '接收 CAD 图纸或现场测量数据，确认型材截面、开孔与安装节点。' },
+  { num: '02', title: '型材切割', desc: '数控锯切，长度公差 ±0.5mm，端面垂直度 ≤0.2mm。' },
+  { num: '03', title: 'CNC 加工', desc: '铣槽、冲孔、攻丝一次装夹完成，保证孔位一致性。' },
+  { num: '04', title: '组角与组装', desc: '45° 精切 + 角码组角，组角胶双面涂布，拼接缝隙 ≤0.15mm。' },
+  { num: '05', title: '表面处理', desc: '氟碳/粉末/电泳/阳极氧化按需选择，膜厚与色差全检。' },
+  { num: '06', title: '质检包装', desc: '外观、尺寸、膜厚三项全检，珍珠棉 + 纸箱包装出厂。' },
+];
+
+const faqs = [
+  {
+    q: '最小起订量是多少？',
+    a: '常规型材单樘即可下单，无起订量限制。定制异形框建议 5 樘起做（含 1 樘样品），以摊薄 CNC 编程与调试成本。',
+  },
+  {
+    q: '打样和批量交付周期？',
+    a: '常规产品打样 3–5 天，批量 10–15 天；定制异形框打样 7–10 天，批量 15–25 天。具体以图纸复杂度为准。',
+  },
+  {
+    q: '支持来图来样加工吗？',
+    a: '支持。提供 CAD（DWG/DXF）图纸或实物样品均可，我们会先做截面与工艺可行性评估，再给出报价与周期。',
+  },
+  {
+    q: '表面处理有哪些选择？',
+    a: '铝合金可选氟碳喷涂、电泳、阳极氧化、木纹转印；钢制可选粉末喷涂、镀锌、木纹转印；不锈钢可选拉丝、镜面、PVD 钛金。',
+  },
+  {
+    q: '是否有质量检测报告？',
+    a: '防火门、防盗门均有国家级检测报告，铝合金型材提供材质单与涂层膜厚检测数据，可根据项目需要提供原件或扫描件。',
+  },
+];
+---
+<Base title={`${site.name} · ${site.slogan}`} description="专注断桥铝、钢制、UPVC、防火、不锈钢与定制异形门框加工，CNC 精密切割，角码组角工艺，7-10 天打样，10-25 天批量交付。">
+  <Header />
+
+  <main>
+    <!-- Hero：材质暗示 + 结构秩序 -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="kicker">精密门框加工</p>
+          <h1 class="hero__title">
+            每一道门框<br />
+            都是结构的<em>精度</em>
+          </h1>
+          <p class="hero__lead">
+            从型材切割到 CNC 加工、组角与表面处理，我们以 ±0.3mm 的加工公差和 ≤0.15mm
+            的拼接缝隙，为建筑项目提供可靠、精致的门框产品。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="/products/">查看产品系列</a>
+            <a class="btn btn--ghost" href="#contact">获取报价</a>
+          </div>
+          <dl class="hero__stats">
+            <div><dt>±0.3mm</dt><dd>加工公差</dd></div>
+            <div><dt>≤0.15mm</dt><dd>拼接缝隙</dd></div>
+            <div><dt>7–10天</dt><dd>打样周期</dd></div>
+            <div><dt>6类</dt><dd>材质工艺</dd></div>
+          </dl>
+        </div>
+        <div class="hero__visual" aria-hidden="true">
+          <!-- 抽象门框结构线：用几何线条传递「结构感」 -->
+          <svg viewBox="0 0 400 480" class="hero-svg" fill="none">
+            <!-- 外框 -->
+            <rect x="40" y="20" width="320" height="440" stroke="#3a3d42" stroke-width="2"/>
+            <!-- 门扇 -->
+            <rect x="70" y="50" width="260" height="380" stroke="#4a4d53" stroke-width="1.5"/>
+            <!-- 分割线 -->
+            <path d="M70 240h260" stroke="#3a3d42" stroke-width="1"/>
+            <path d="M200 50v380" stroke="#3a3d42" stroke-width="1"/>
+            <!-- 强调：把手 -->
+            <path d="M185 220v40" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+            <!-- 标注线 -->
+            <path d="M40 470h320" stroke="#2c2e32" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="200" y="462" fill="#6c7076" font-size="12" text-anchor="middle" font-family="Inter,sans-serif">2600</text>
+            <path d="M30 20v440" stroke="#2c2e32" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="22" y="245" fill="#6c7076" font-size="12" text-anchor="middle" transform="rotate(-90 22 245)" font-family="Inter,sans-serif">2400</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 产品速览 -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">产品系列</p>
+          <h2 class="section-title">六种材质，覆盖全场景</h2>
+          <p class="section-lead">从断桥铝到不锈钢，从室内门到防火通道，每种工艺都针对特定环境优化。</p>
+        </div>
+        <div class="grid-3 product-grid reveal">
+          {featured.map((p) => <ProductCard product={p} />)}
+        </div>
+        <div class="section-more reveal">
+          <a class="btn btn--ghost" href="/products/">查看全部 {products.length} 款产品</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 加工流程：结构秩序 -->
+    <section class="section section--dark" id="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">加工流程</p>
+          <h2 class="section-title">六道工序，层层把关</h2>
+          <p class="section-lead">每一道工序都有明确的公差与检验标准，不合格不上线、不出厂。</p>
+        </div>
+        <ol class="process-grid">
+          {processSteps.map((s) => (
+            <li class="process-item reveal">
+              <span class="process-num">{s.num}</span>
+              <h3 class="process-title">{s.title}</h3>
+              <p class="process-desc">{s.desc}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- 特性：材质质感 + 信息即设计 -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">核心优势</p>
+          <h2 class="section-title">为什么选择我们</h2>
+        </div>
+        <div class="grid-3 reveal">
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V7l7-4 7 4v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="feature__title">材质可溯源</h3>
+            <p class="feature__desc">铝、钢、不锈钢均提供材质单，批号可追溯，涂层膜厚逐件检测。</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="feature__title">交付准时</h3>
+            <p class="feature__desc">打样 3–10 天，批量 10–25 天，合同约定延期赔付。</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l7 4v6c0 4-3 6-7 6s-7-2-7-6V6l7-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="feature__title">检测认证</h3>
+            <p class="feature__desc">防火、防盗产品提供国家级检测报告，满足消防与安防验收。</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6v6H7z" stroke="currentColor" stroke-width="1.2"/></svg>
+            </div>
+            <h3 class="feature__title">尺寸灵活</h3>
+            <p class="feature__desc">常规尺寸现货型材，异形/超大尺寸 CNC 定制，单樘可达 3.6×2.8m。</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 10h16M2 10l4-4M2 10l4 4M18 10l-4-4M18 10l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="feature__title">全流程支持</h3>
+            <p class="feature__desc">提供 CAD 深化、安装节点图与现场技术交底，安装问题远程指导。</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16 8 8 0 000-16z" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="feature__title">环保达标</h3>
+            <p class="feature__desc">涂层与芯材符合室内装修环保要求，提供检测数据。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" style="background: var(--bg-raised); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="container container--narrow">
+        <div class="section-head reveal">
+          <p class="kicker">常见问题</p>
+          <h2 class="section-title">下单前，你可能想知道</h2>
+        </div>
+        <div class="reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <div class="faq-body"><p>{f.a}</p></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="contact">
+      <div class="container cta__inner">
+        <div>
+          <h2 class="cta__title">有图纸？发给我们，24 小时内报价</h2>
+          <p class="cta__sub">支持 DWG / DXF / PDF / 实物样品，评估后提供完整工艺与周期方案。</p>
+        </div>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href={`tel:${site.phone.replace(/-/g, '')}`}>电话咨询 {site.phone}</a>
+          <a class="btn btn--ghost-light" href={`mailto:${site.email}`}>邮件发图纸</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ===== Hero ===== */
+  .hero {
+    background: var(--dark);
+    color: #e8e9ea;
+    padding: 96px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero__title {
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .hero__title em {
+    font-style: normal;
+    color: var(--accent);
+    /* 微妙的强调，不花哨 */
+  }
+  .hero__lead {
+    font-size: 16.5px;
+    color: var(--ink-faint);
+    max-width: 520px;
+    margin-bottom: 28px;
+  }
+  .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 36px;
+    border-top: 1px solid #2c2e31;
+    padding-top: 24px;
+  }
+  .hero__stats dt {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .hero__stats dd {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
+  .hero__visual { display: flex; justify-content: center; }
+  .hero-svg { width: 100%; max-width: 340px; height: auto; opacity: 0.9; }
+
+  /* ===== 通用 ===== */
+  .section-head { margin-bottom: 40px; }
+  .container--narrow { max-width: 760px; }
+  .section-more { margin-top: 36px; text-align: center; }
+
+  /* ===== 流程 ===== */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 24px;
+    list-style: none;
+    counter-reset: step;
+  }
+  .process-item { position: relative; padding-left: 0; }
+  .process-num {
+    font-size: 36px;
+    font-weight: 750;
+    color: #3a3d42;
+    line-height: 1;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .process-title {
+    font-size: 16px;
+    font-weight: 650;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .process-desc {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+  }
+
+  /* ===== CTA ===== */
+  .cta__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 72px 0 56px; }
+    .hero__inner { grid-template-columns: 1fr; }
+    .hero__visual { order: -1; }
+    .hero-svg { max-width: 220px; }
+    .hero__stats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .process-grid { grid-template-columns: 1fr; }
+    .cta__inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>

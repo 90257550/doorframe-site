@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.npm-cache/
+.gh-config/
+.DS_Store
+*.local
